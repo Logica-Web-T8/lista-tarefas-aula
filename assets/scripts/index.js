@@ -42,6 +42,13 @@ function updateViewTable(list) {
     //criar tr (tag)
     const trElement = document.createElement("tr");
 
+    if(item.status){
+        const myClassStatus = getClassByStatus(item.status);
+        if(myClassStatus !== ""){
+            trElement.classList.add(myClassStatus);
+        }
+    }
+
     //insere as colunas (td) dentro da tr (linha) criada
     trElement.innerHTML = `
             <td>${index + 1}</td>
@@ -58,6 +65,31 @@ function updateViewTable(list) {
                     <ul class="dropdown-menu">
                         <li><h6 class="dropdown-header">Ações</h6></li>
                         <li><button class="dropdown-item" onclick="deleteTask(${index})">Excluir</button></li>
+                        <li><h6 class="dropdown-header">Alterar status</h6></li>
+                        <li>
+                            <button 
+                                class="btn btn-outline-success btn-status-task" 
+                                onclick="updateStatusTask(${index}, 'concluida')"
+                                type="button">
+                                Concluída
+                            </button>
+                        </li>
+                        <li>
+                            <button 
+                                class="btn btn-outline-warning btn-status-task" 
+                                onclick="updateStatusTask(${index}, 'pendente')"
+                                type="button">
+                                Pendente
+                            </button>
+                        </li>
+                        <li>
+                            <button 
+                                class="btn btn-outline-danger btn-status-task" 
+                                onclick="updateStatusTask(${index}, 'cancelado')"
+                                type="button">
+                                Cancelado
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </td>
@@ -66,6 +98,26 @@ function updateViewTable(list) {
     //insere a tr dentro do tbody
     tbodyTasks.appendChild(trElement);
   });
+}
+
+function getClassByStatus(status){
+    switch(status){
+        case 'concluida':
+            return 'table-success';
+        case 'pendente':
+            return 'table-warning';
+        case 'cancelado':
+            return 'table-danger';
+        default:
+            return "";
+    }
+}
+
+function updateStatusTask(index, status){
+    //adiciona uma propriedade no objeto da lista
+    tasks[index].status = status;
+    saveTasksLocalStorage();
+    updateViewTable(tasks);
 }
 
 function deleteTask(index){

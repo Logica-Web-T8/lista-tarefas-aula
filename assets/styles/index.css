@@ -10,6 +10,13 @@ body{
     color: var(--main-text-color);
     font-family: "Inconsolata", monospace;
 }
+
+.btn-status-task{
+    width: 100%;
+    border: none;
+    border-radius: 0;
+}
+
 .icon-button{
     width: 35px;
     height: 30px;
