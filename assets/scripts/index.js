@@ -47,12 +47,32 @@ function updateViewTable(list) {
             <td>${index + 1}</td>
             <td>${item.title}</td>
             <td>${item.description}</td>
-            <td>ações</td>
+            <td>
+                <div class="dropdown-center">  
+                    <img 
+                        class="dropdown-toggle icon-button" 
+                        src="./assets/icons/more.svg" 
+                        alt="icones três pontos" 
+                        data-bs-toggle="dropdown" 
+                    /> 
+                    <ul class="dropdown-menu">
+                        <li><h6 class="dropdown-header">Ações</h6></li>
+                        <li><button class="dropdown-item" onclick="deleteTask(${index})">Excluir</button></li>
+                    </ul>
+                </div>
+            </td>
         `;
 
     //insere a tr dentro do tbody
     tbodyTasks.appendChild(trElement);
   });
+}
+
+function deleteTask(index){
+    tasks.splice(index, 1);
+
+    updateViewTable(tasks);
+    saveTasksLocalStorage();
 }
 
 function saveTasksLocalStorage() {

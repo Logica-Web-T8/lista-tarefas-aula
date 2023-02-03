@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
 
-* {
-    margin: 0;
-    padding: 0;
-}
-
 :root {
     --main-bg-color: #333333;
     --main-text-color: #7dff66;
@@ -15,7 +10,19 @@ body{
     color: var(--main-text-color);
     font-family: "Inconsolata", monospace;
 }
-
+.icon-button{
+    width: 35px;
+    height: 30px;
+    cursor: pointer;
+    padding: 2px 0;
+    filter: brightness(0) invert(1);
+}
+.title{
+    color: var(--main-text-color)
+}
+.overflow-auto{
+    overflow: auto;
+}
 .main-content{
     display: grid;
     grid-template-columns: 1fr 1fr;
