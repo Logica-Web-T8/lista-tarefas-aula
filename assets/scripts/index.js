@@ -1,5 +1,6 @@
 const form = document.querySelector("#form-create-task");
 const tbodyTasks = document.querySelector("#tbody-tasks");
+const formFilter = document.querySelector("#form-filter-tasks");
 
 const KEY_TASKS_LOCAL_STORAGE = "tasks";
 
@@ -33,6 +34,39 @@ form.addEventListener("submit", (event) => {
   saveTasksLocalStorage();
 });
 
+formFilter.addEventListener("submit", event => {
+  event.preventDefault();
+
+  const formFilter = event.target;
+  const { titleFilter, descriptionFilter } = formFilter;
+
+  const tasksFiltered = filterTasks({
+    title: titleFilter.value,
+    description: descriptionFilter.value
+  });
+
+  updateViewTable(tasksFiltered);
+
+});
+
+function filterTasks({title, description}){
+  if(title === "" && description === ""){
+    return tasks;
+  }
+
+  const newTasks = tasks.filter(task => {
+    let descritionUpper = task.description.toUpperCase();
+    let titleUpper = task.title.toUpperCase();
+
+    let descriptionOk = description.length > 0 && descritionUpper.includes(description.toUpperCase());
+    let titleOk = title.length > 0 && titleUpper.includes(title.toUpperCase());
+    
+    return descriptionOk || titleOk;
+  });
+
+  return newTasks;
+}
+
 function updateViewTable(list) {
   //zerar tbody
   tbodyTasks.innerHTML = "";
@@ -42,10 +76,12 @@ function updateViewTable(list) {
     //criar tr (tag)
     const trElement = document.createElement("tr");
 
+    let classIcon = "filter-white-icon";
     if(item.status){
         const myClassStatus = getClassByStatus(item.status);
         if(myClassStatus !== ""){
             trElement.classList.add(myClassStatus);
+            classIcon = "";
         }
     }
 
@@ -57,7 +93,7 @@ function updateViewTable(list) {
             <td>
                 <div class="dropdown-center">  
                     <img 
-                        class="dropdown-toggle icon-button" 
+                        class="dropdown-toggle icon-button ${classIcon}" 
                         src="./assets/icons/more.svg" 
                         alt="icones três pontos" 
                         data-bs-toggle="dropdown" 
